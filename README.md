@@ -1,9 +1,12 @@
-
 The Small Business AI Idea Generator
 This is a live, interactive micro-tool built to demonstrate a unique combination of frontend development, marketing strategy, and AI integration skills. It serves as a portfolio piece that showcases the ability to build functional web applications that provide real-world value.
 
 ✨ View the Live Demo Here
-https://iambemc.github.io/AI-Idea-Generator-Micro-Tool-/
+(Note: The URL above is based on your repository name. If it's not working, please double-check the following:)
+
+Case-Sensitivity: The repository name in the URL must exactly match the name on GitHub, including capitalization.
+
+Verification: The 100% correct link is always shown in your repository's Settings > Pages section.
 
 Core Features
 This is not just a static webpage; it's a dynamic single-page application with three key features:
@@ -46,3 +49,4 @@ Click "Generate Curated Ideas" to get proven strategies, or click "Generate with
 (Optional) Fill out the form to see the lead-capture functionality in action.
 
 Built by Brittany Campa | View My Main Portfolio
+
