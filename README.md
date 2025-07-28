@@ -1,5 +1,9 @@
+
 The Small Business AI Idea Generator
 This is a live, interactive micro-tool built to demonstrate a unique combination of frontend development, marketing strategy, and AI integration skills. It serves as a portfolio piece that showcases the ability to build functional web applications that provide real-world value.
+
+✨ View the Live Demo Here
+https://iambemc.github.io/AI-Idea-Generator-Micro-Tool-/
 
 Core Features
 This is not just a static webpage; it's a dynamic single-page application with three key features:
