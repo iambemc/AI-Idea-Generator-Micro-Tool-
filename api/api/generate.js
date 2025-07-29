@@ -3,6 +3,13 @@ export const config = {
 };
 
 export default async function handler(request) {
+  if (request.method !== 'POST') {
+    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+      status: 405,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
     const { businessType, primaryGoal } = await request.json();
 
@@ -11,10 +18,14 @@ export default async function handler(request) {
     Business Type: ${businessType}
     Primary Goal: ${primaryGoal}
 
-    For each idea, provide a short, compelling title and a 1-2 sentence description. The ideas should be innovative and practical for a small business to implement. Format the output as a JSON array of objects, where each object has a "title" and a "description" key. For example: [{"title": "Idea Title", "description": "Idea description."}]`;
+    For each idea, provide a short, compelling title and a 1-2 sentence description. The ideas should be innovative and practical for a small business to implement. Format the output as a valid JSON array of objects, where each object has a "title" and a "description" key. Example: [{"title": "Idea Title", "description": "Idea description."}]`;
 
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+    if (!GEMINI_API_KEY) {
+        throw new Error("API key is not configured.");
+    }
+    
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
     const geminiRequestBody = {
       contents: [{
@@ -33,10 +44,10 @@ export default async function handler(request) {
     });
 
     if (!response.ok) {
-      const errorBody = await response.text();
+      const errorBody = await response.json().catch(() => ({ error: { message: 'Unknown API error' } }));
       console.error('Gemini API Error:', errorBody);
-      return new Response(JSON.stringify({ error: 'Failed to fetch from Gemini API' }), {
-        status: 500,
+      return new Response(JSON.stringify({ error: `Gemini API Error: ${errorBody.error.message}` }), {
+        status: response.status,
         headers: { 'Content-Type': 'application/json' },
       });
     }
@@ -54,7 +65,7 @@ export default async function handler(request) {
 
   } catch (error) {
     console.error('Error in serverless function:', error);
-    return new Response(JSON.stringify({ error: 'An internal error occurred' }), {
+    return new Response(JSON.stringify({ error: `An internal server error occurred: ${error.message}` }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });
