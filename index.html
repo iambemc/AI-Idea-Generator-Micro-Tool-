@@ -50,6 +50,7 @@
             <p class="text-lg text-indigo-500 mt-2">A micro-tool by Brittany Campa to spark your next marketing campaign.</p>
         </header>
 
+        <!-- Input Section -->
         <section id="input-section" class="mb-12">
             <div class="bg-white p-8 rounded-xl shadow-lg border">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -87,9 +88,30 @@
             </div>
         </section>
 
+        <!-- Output Section -->
         <section id="output-section">
             <div id="ideas-container" class="space-y-6">
                 <p class="text-center text-gray-500">Your custom marketing ideas will appear here.</p>
+            </div>
+        </section>
+
+        <!-- Lead Capture Section -->
+        <section id="lead-capture-section" class="mt-12 hidden">
+            <div class="bg-white p-8 rounded-xl shadow-lg border">
+                <div id="form-container">
+                    <h2 class="text-2xl font-bold text-center text-indigo-900">Like These Ideas?</h2>
+                    <p class="text-center text-gray-600 mt-2 mb-6">Enter your name and email to get a copy of these ideas sent to your inbox.</p>
+                    <form id="leadForm" action="mailto:brittany@scanistaqr.com" method="post" enctype="text/plain">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="text" name="Name" placeholder="Your Name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" required>
+                            <input type="email" name="Email" placeholder="Your Email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <input type="hidden" name="Generated_Ideas" id="hiddenIdeas">
+                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 transition-colors text-lg">
+                            Send My Ideas
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
 
@@ -152,6 +174,9 @@
             const generateButton = document.getElementById('generateButton');
             const generateAIButton = document.getElementById('generateAIButton');
             const ideasContainer = document.getElementById('ideas-container');
+            const leadCaptureSection = document.getElementById('lead-capture-section');
+            const leadForm = document.getElementById('leadForm');
+            const hiddenIdeasInput = document.getElementById('hiddenIdeas');
 
             function shuffleArray(array) {
                 for (let i = array.length - 1; i > 0; i--) {
@@ -163,6 +188,7 @@
 
             function displayIdeas(ideas) {
                 ideasContainer.innerHTML = '';
+                let ideasText = '';
                 if (ideas && ideas.length > 0) {
                     ideas.forEach((idea, index) => {
                         const card = document.createElement('div');
@@ -181,7 +207,10 @@
                         card.appendChild(description);
                         
                         ideasContainer.appendChild(card);
+                        ideasText += `Idea ${index + 1}: ${idea.title}\nDescription: ${idea.description}\n\n`;
                     });
+                    hiddenIdeasInput.value = ideasText;
+                    leadCaptureSection.classList.remove('hidden');
                 } else {
                      ideasContainer.innerHTML = '<p class="text-center text-gray-500">Could not generate ideas at this time. Please try again.</p>';
                 }
@@ -205,6 +234,7 @@
                 const primaryGoal = document.getElementById('primaryGoal').value;
 
                 ideasContainer.innerHTML = '<div class="flex justify-center"><div class="loader"></div></div>';
+                leadCaptureSection.classList.add('hidden');
 
                 const payload = {
                     businessType,
@@ -237,3 +267,4 @@
     </script>
 </body>
 </html>
+
